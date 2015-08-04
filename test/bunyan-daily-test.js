@@ -4,15 +4,16 @@ var del = require('del');
 var moment = require('moment');
 var fs = require('fs');
 
+var logDir = 'tmp-logs';
 describe('bunyan-daily', function () {
   before(function () {
-    del.sync('logs');
+    del.sync(logDir);
   });
 
   it('init', function () {
     bunyanDaily.init({
       daily: {
-        dir: 'tmp-logs'
+        dir: logDir
       },
       logstash: {
         host: 'svr.zeusky.com',
@@ -30,7 +31,7 @@ describe('bunyan-daily', function () {
         bunyanDaily.clear();
         clearInterval(t);
       }
-      expect(fs.existsSync('logs/' + moment().format('YYYY-MM-DD') + '.log')).to.be.ok;
-    }, 10000);
+    }, 5000);
+    expect(fs.existsSync(logDir + '/' + moment().format('YYYY-MM-DD') + '.log')).to.be.ok;
   });
 });
