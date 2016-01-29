@@ -15,9 +15,3 @@ gulp.task('test', function (done) {
         .on('end', done);
     });
 });
-
-gulp.task('jshint', function () {
-  gulp.src(['lib/**/*.js', 'test/**/*.js'])
-    .pipe(plugins.jshint())
-    .pipe(plugins.jshint.reporter('default'));
-});

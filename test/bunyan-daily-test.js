@@ -10,16 +10,11 @@ describe('bunyan-daily', function () {
     del.sync(logDir);
   });
 
-  it('init', function () {
+  it('init', function (done) {
     bunyanDaily.init({
       daily: {
         dir: logDir
       },
-      logstash: {
-        host: 'svr.zeusky.com',
-        port: 5000,
-        index: 'bunyan-daily-test'
-      }
     });
 
     var log = bunyanDaily.logger('test');
@@ -30,6 +25,7 @@ describe('bunyan-daily', function () {
       if (count === 6) {
         bunyanDaily.clear();
         clearInterval(t);
+        done();
       }
     }, 5000);
     expect(fs.existsSync(logDir + '/' + moment().format('YYYY-MM-DD') + '.log')).to.be.ok;
